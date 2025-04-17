@@ -8,7 +8,7 @@ add_repositories(
 add_requires("glaciehook 1.0.1", { configs = { static = true } })
 
 add_requires(
-    "endstone 0.6.1",
+    "endstone 0.7.1",
     "fmt >=10.0.0 <11.0.0",
     "expected-lite 0.8.0",
     "libhat 2024.9.22",
@@ -38,10 +38,6 @@ target("ChunkLeakFix")
     set_symbols("debug")
     add_includedirs("src")
     add_files("src/**.cpp")
-
-    -- EndStone Entt
-    add_defines("ENTT_SPARSE_PAGE=2048")
-    add_defines("ENTT_PACKED_PAGE=128")
 
     add_cxxflags("/Zc:__cplusplus")
     add_cxflags(

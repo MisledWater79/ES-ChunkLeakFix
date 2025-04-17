@@ -3,6 +3,7 @@
 
 namespace ChunkLeakFix {
 
+#if defined(_WIN32) || defined(_WIN64)
 GLACIE_AUTO_INSTANCE_HOOK(
     OnPlayerLeftHook,
     "48 85 D2 0F 84 ?? ?? ?? ?? 48 89 5C 24 ?? 55 56 57 41 54 41 55 41 56 41 57 48 8D AC 24 ?? ?? ?? ?? 48 81 EC ?? ?? "
@@ -14,7 +15,7 @@ GLACIE_AUTO_INSTANCE_HOOK(
     origin(player, skipMessage);
     if (!player) return;
     auto& level      = glacie::memory::dAccess<void*>(player, 472);    // Actor::mLevel
-    auto* manager    = glacie::memory::virtualCall<void*>(level, 379); // ServerLevel::_getMapDataManager
+    auto* manager    = glacie::memory::virtualCall<void*>(level, 381); // ServerLevel::_getMapDataManager
     auto& allMapData = glacie::memory::dAccess<std::unordered_map<long long, std::unique_ptr<void*>>>(
         manager,
         112
@@ -28,6 +29,11 @@ GLACIE_AUTO_INSTANCE_HOOK(
         });
     }
 }
+#else
+
+// Linux
+
+#endif
 
 Entry* Entry::getInstance() {
     static Entry* instance;
