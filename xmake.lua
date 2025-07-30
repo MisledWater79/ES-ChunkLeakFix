@@ -5,15 +5,9 @@ add_repositories(
     "groupmountain-repo https://github.com/GroupMountain/xmake-repo.git"
 )
 
-add_requires("glaciehook 1.0.1", { configs = { static = true } })
+add_requires("glaciehook 1.0.2", { configs = { static = true } })
 
-add_requires(
-    "endstone 0.7.1",
-    "fmt >=10.0.0 <11.0.0",
-    "expected-lite 0.8.0",
-    "libhat 2024.9.22",
-    "detours v4.0.1-xmake.1"
-)
+add_requires("endstone 0.9.4")
 
 if not has_config("vs_runtime") then
     set_runtimes("MD")
@@ -27,10 +21,6 @@ target("ChunkLeakFix")
     )
     add_packages(
         "endstone",
-        "fmt",
-        "expected-lite",
-        "libhat",
-        "detours",
         "glaciehook"
     )
     set_kind("shared")
@@ -56,15 +46,14 @@ target("ChunkLeakFix")
     after_build(function(target)
         local output_dir = path.join(os.projectdir(), "bin")
 
-        os.cp(
-            target:targetfile(), 
-            path.join(output_dir, target:name() .. ".dll")
-        )
-
-        local pdb_path = path.join(output_dir, target:name() .. ".pdb")
-        if os.isfile(target:symbolfile()) then 
-            os.cp(target:symbolfile(), pdb_path) 
+        if os.exists(output_dir) then
+            os.rm(output_dir)
         end
+
+        os.mkdir(output_dir)
+
+        os.cp(target:targetfile(), output_dir)
+        os.cp(target:symbolfile(), output_dir)
 
         cprint("${bright green}[plugin Packer]: ${reset}plugin already generated to " .. output_dir)
     end)

@@ -3,9 +3,9 @@
 
 namespace ChunkLeakFix {
 
-#if defined(_WIN32) || defined(_WIN64)
 GLACIE_AUTO_INSTANCE_HOOK(
     OnPlayerLeftHook,
+    // ServerNetworkHandler::_onPlayerLeft
     "48 85 D2 0F 84 ?? ?? ?? ?? 48 89 5C 24 ?? 55 56 57 41 54 41 55 41 56 41 57 48 8D AC 24 ?? ?? ?? ?? 48 81 EC ?? ?? "
     "?? ?? 48 8B 05 ?? ?? ?? ?? 48 33 C4 48 89 85 ?? ?? ?? ?? 44 88 44 24",
     void,
@@ -29,11 +29,6 @@ GLACIE_AUTO_INSTANCE_HOOK(
         });
     }
 }
-#else
-
-// Linux
-
-#endif
 
 Entry* Entry::getInstance() {
     static Entry* instance;
