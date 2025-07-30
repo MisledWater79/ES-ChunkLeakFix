@@ -21,6 +21,6 @@ public:
 
 private:
     PluginDescriptionBuilderImpl mBuilder;
-    endstone::PluginDescription  mDescription = mBuilder.build("chunk_leak_fix", "1.0.0");
+    endstone::PluginDescription  mDescription = mBuilder.build("chunk_leak_fix", "1.1.0");
 };
 } // namespace ChunkLeakFix
